@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from .models import Perfil, Post, Comentario
 from .forms import PerfilFormulario, PostFormulario, ComentarioFormulario
+from django.http import HttpResponse
 
 def inicio(request):
     return render(request, 'blog/inicio.html')
@@ -51,3 +52,20 @@ def comentarioFormulario(request):
         miFormulario = ComentarioFormulario()
     
     return render(request, 'blog/formulario/comentarioFormulario.html', {'miFormulario': miFormulario})
+
+
+def buscarAutor(request):
+    return render(request, "blog/formulario/buscarAutor.html")
+
+
+def buscar(request):
+    if request.GET['autor']:
+        autor = request.GET['autor']
+        posts = Post.objects.filter(autor__icontains=autor)
+
+        return render(request, "blog/formulario/resultadosBusqueda.html", {"posts": posts, "autor": autor})
+
+    else:
+        respuesta = "No enviaste datos"
+
+        return HttpResponse(respuesta)
