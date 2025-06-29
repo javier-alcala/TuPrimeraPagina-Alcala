@@ -2,6 +2,7 @@ from django.db import models
 
 class Perfil(models.Model):
     usuario = models.CharField(max_length=100)
+    edad = models.IntegerField()
     biografia = models.TextField()
 
 class Post(models.Model):
